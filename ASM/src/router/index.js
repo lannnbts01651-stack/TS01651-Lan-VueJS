@@ -7,6 +7,7 @@ import BlogList from '../views/blogList.vue'
 import BlogDetail from '../views/blogDetail.vue'
 import BlogCreate from '../views/blogCreate.vue'
 import Profile from '../views/profile.vue'
+import BlogEdit from '../views/blogEdit.vue'
 
 const routes = [
   {
@@ -38,7 +39,10 @@ const routes = [
     path: '/blogs/create',
     name: 'blog-create',
     component: BlogCreate,
-    meta: { requiresAuth: true }
+    meta: {
+      requiresAuth: true,
+      requiresAdmin: true
+    }
   },
   {
     path: '/profile',
@@ -55,14 +59,23 @@ const router = createRouter({
 
 /* ===== AUTH GUARD ===== */
 router.beforeEach((to, from, next) => {
-const isLogin = sessionStorage.getItem('loggedIn')
+  const isLogin = sessionStorage.getItem('loggedIn')
+  const user = JSON.parse(sessionStorage.getItem('user'))
 
+  // Chưa login
   if (to.meta.requiresAuth && !isLogin) {
     next('/login')
-  } else {
-    next()
+    return
   }
+
+  // Không phải admin
+  if (to.meta.requiresAdmin && user?.role !== 'admin') {
+    alert('Bạn không có quyền')
+    next('/')
+    return
+  }
+
+  next()
 })
 
 export default router
-

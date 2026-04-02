@@ -18,6 +18,10 @@
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const user = ref({
   name: '',
@@ -25,8 +29,33 @@ const user = ref({
   password: ''
 })
 
-const register = () => {
-  localStorage.setItem('user', JSON.stringify(user.value))
-  alert('Đăng ký thành công')
+const register = async () => {
+  if (!user.value.email || !user.value.password) {
+    alert('Nhập đầy đủ thông tin')
+    return
+  }
+
+  try {
+    const res = await axios.get('http://localhost:3000/users')
+    const users = res.data
+
+    const exist = users.find(
+      u => u.email.toLowerCase() === user.value.email.toLowerCase()
+    )
+
+    if (exist) {
+      alert('Email đã tồn tại')
+      return
+    }
+
+    await axios.post('http://localhost:3000/users', user.value)
+
+    alert('Đăng ký thành công')
+    router.push('/login')
+
+  } catch (err) {
+    alert('Lỗi server')
+    console.error(err)
+  }
 }
 </script>

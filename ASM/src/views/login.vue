@@ -16,20 +16,37 @@
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 import { useRouter } from 'vue-router'
 
 const email = ref('')
 const password = ref('')
 const router = useRouter()
 
-const login = () => {
-  const user = JSON.parse(localStorage.getItem('user'))
+const login = async () => {
+  try {
+    const res = await axios.get('/users')
+    const users = res.data
 
-  if (user && user.email === email.value && user.password === password.value) {
+    const user = users.find(
+      u =>
+        u.email.toLowerCase() === email.value.toLowerCase().trim() &&
+        u.password === password.value
+    )
+
+    if (!user) {
+      alert('Sai email hoặc mật khẩu')
+      return
+    }
+
+    // LƯU ĐĂNG NHẬP + USER
     sessionStorage.setItem('loggedIn', 'true')
+    sessionStorage.setItem('user', JSON.stringify(user))
+
     router.push('/')
-  } else {
-    alert('Sai thông tin')
+  } catch (err) {
+    alert('Không kết nối được json-server')
+    console.error(err)
   }
 }
 </script>

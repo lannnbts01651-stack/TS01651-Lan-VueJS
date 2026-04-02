@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-      <router-link class="navbar-brand" to="/">MyBlog</router-link>
+    <div class="container fw-bold">
+      <router-link class="navbar-brand" to="/">B&L Restaurant</router-link>
 
       <ul class="navbar-nav ms-auto">
 
@@ -57,6 +57,11 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import { computed } from 'vue'
+
+const user = JSON.parse(sessionStorage.getItem('user'))
+
+const isAdmin = computed(() => user?.role === 'admin')
 
 const isLogin = ref(false)
 const route = useRoute()

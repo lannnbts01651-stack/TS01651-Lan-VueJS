@@ -37,7 +37,7 @@
                         </div>
 
                         <!-- SUBMIT -->
-                        <button class="btn btn-success w-100" @click="submitBlog">
+                        <button v-if="user && user.role === 'admin'" class="btn btn-success w-100" @click="submitBlog">
                             Đăng bài
                         </button>
 
@@ -50,52 +50,44 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
-import { useRouter } from "vue-router";
+import { reactive } from 'vue'
+import axios from 'axios'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
-/* ===== FORM BINDING ===== */
+const user = JSON.parse(sessionStorage.getItem('user'))
+
 const blog = reactive({
-    title: "",
-    description: "",
-    content: "",
-    image: ""
-});
+    title: '',
+    description: '',
+    content: '',
+    image: ''
+})
 
-/* ===== EVENT HANDLING ===== */
-const submitBlog = () => {
+const submitBlog = async () => {
     if (!blog.title || !blog.content) {
-        alert("Vui lòng nhập đầy đủ tiêu đề và nội dung!");
-        return;
+        alert('Vui lòng nhập tiêu đề và nội dung')
+        return
     }
 
-    // LẤY BLOG CŨ
-    const blogs = JSON.parse(localStorage.getItem("blogs")) || [];
+    try {
+        const res = await axios.post('http://localhost:3000/posts', {
+            title: blog.title,
+            description: blog.description,
+            content: blog.content,
+            image: blog.image || 'https://picsum.photos/600/300',
+            createdAt: new Date().toISOString().slice(0, 10)
+        })
 
-    // THÊM BLOG MỚI
-    blogs.push({
-        id: Date.now(),
-        title: blog.title,
-        description: blog.description,
-        content: blog.content,
-        image: blog.image || "https://picsum.photos/600/300",
-        author: "User",
-        createdAt: new Date().toLocaleDateString()
-    });
+        alert('Đăng bài thành công')
 
-    // LƯU LẠI
-    localStorage.setItem("blogs", JSON.stringify(blogs));
+        // 👉 CHUYỂN SANG TRANG CHI TIẾT
+        router.push(`/blogs/${res.data.id}`)
 
-    alert("Đăng bài thành công!");
-
-    // RESET FORM
-    blog.title = "";
-    blog.description = "";
-    blog.content = "";
-    blog.image = "";
-
-    // CHUYỂN TRANG
-    router.push("/blogs");
-};
+    } catch (err) {
+        alert('Lỗi khi đăng bài')
+        console.error(err)
+    }
+}
 </script>

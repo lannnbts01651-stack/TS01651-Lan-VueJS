@@ -1,0 +1,77 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Admin",
+      "email": "admin@gmail.com",
+      "password": "123456",
+      "role": "admin",
+      "avatar": "/images/admin.jpg"
+    },
+    {
+      "id": "2",
+      "name": "Lan",
+      "email": "lan@gmail.com",
+      "password": "123456",
+      "role": "user",
+      "avatar": "/images/lan.jpg"
+    },
+    {
+      "id": "9d7c",
+      "name": "ngoc",
+      "email": "ngoc@gmail.com",
+      "password": "123456"
+    }
+  ],
+  "posts": [
+    {
+      "id": "1",
+      "title": "Mỳ ý hàu với nước sốt đậm đà",
+      "author": "Admin",
+      "description": "Hương vị độc đáo mới lạ, tạo cảm giác khác biệt ngay lần đầu nếm.",
+      "image": "/images/blog1.jpg",
+      "createdAt": "2026-02-01"
+    },
+    {
+      "id": "2",
+      "title": "Pizza rau củ lành mạnh",
+      "author": "Admin",
+      "description": "Pizza chay nhưng không nhạt nhẽo, ngon đến từng miếng cuối.",
+      "image": "/images/blog2.jpg",
+      "createdAt": "2026-02-02"
+    },
+    {
+      "id": "3",
+      "title": "Bít tết ngọt béo nhưng không ngấy",
+      "author": "Nhân viên Linh",
+      "description": "Nhà hành làm chỉn chu, phục vụ tốt.",
+      "image": "/images/blog3.jpg",
+      "createdAt": "2026-06-03"
+    },
+    {
+      "id": "4",
+      "title": "SuShi tươi, ăn ngọt giòn sựt",
+      "author": "Chủ nhà hàng",
+      "description": "Lên món nhanh, fill đồ lẹ.",
+      "image": "/images/blog4.jpg",
+      "createdAt": "2026-02-04"
+    },
+    {
+      "id": "5",
+      "title": "Sợi ramen dai không nhũn với nước súp ngọt thanh",
+      "author": "Admin",
+      "description": "Độ béo vừa phải đậm đà.",
+      "image": "/images/blog5.jpg",
+      "createdAt": "2026-02-05"
+    },
+    {
+      "id": "6",
+      "title": "Cá hồi sốt cà chua",
+      "author": "Nhân viên Hùng",
+      "description": "Cá ngọt béo hòa với nước sốt chua mà thanh.",
+      "image": "/images/blog6.jpg",
+      "createdAt": "2026-02-06"
+    }
+  ],
+  "comments": []
+}
